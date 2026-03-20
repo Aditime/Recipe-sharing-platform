@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   description: "Share and discover community recipes.",
 };
 
+/** Avoid static prerender of the whole tree without Supabase env (e.g. misconfigured Vercel vars). */
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
   children,
 }: Readonly<{

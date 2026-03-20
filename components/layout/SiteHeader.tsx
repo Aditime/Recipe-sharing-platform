@@ -1,20 +1,27 @@
 import Link from "next/link";
 import { SignOutButton } from "@/components/auth/SignOutButton";
-import { createSupabaseServerClient } from "@/lib/supabase/server";
+import {
+  createSupabaseServerClient,
+  hasSupabaseEnv,
+} from "@/lib/supabase/server";
 
 const navTextClass = "text-sm font-medium text-zinc-700";
 const navLinkClass = `${navTextClass} transition-colors hover:text-zinc-900`;
 
 export async function SiteHeader() {
-  const supabase = await createSupabaseServerClient();
+  let user: { id: string; email?: string | null } | null = null;
 
-  const {
-    data: { user },
-    error: userError,
-  } = await supabase.auth.getUser();
+  if (hasSupabaseEnv()) {
+    const supabase = await createSupabaseServerClient();
+    const {
+      data: { user: u },
+      error: userError,
+    } = await supabase.auth.getUser();
 
-  if (userError) {
-    console.error("SiteHeader: failed to load user", userError);
+    if (userError) {
+      console.error("SiteHeader: failed to load user", userError);
+    }
+    user = u;
   }
 
   return (
