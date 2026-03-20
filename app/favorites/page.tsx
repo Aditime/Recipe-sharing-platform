@@ -10,9 +10,24 @@ export const metadata = {
   description: "Recipes you have saved.",
 };
 
-interface FavoriteRow {
-  recipe_id: string;
-  recipes: Recipe | null;
+/** Supabase embed typing is loose; normalize to a single `Recipe` or null. */
+function embeddedRecipeFromFavoriteRow(row: unknown): Recipe | null {
+  if (!row || typeof row !== "object" || !("recipes" in row)) {
+    return null;
+  }
+  const embedded = (row as { recipes: unknown }).recipes;
+  if (embedded == null) return null;
+  if (Array.isArray(embedded)) {
+    const first = embedded[0];
+    if (first && typeof first === "object" && "id" in first) {
+      return first as Recipe;
+    }
+    return null;
+  }
+  if (typeof embedded === "object" && "id" in embedded) {
+    return embedded as Recipe;
+  }
+  return null;
 }
 
 export default async function FavoritesPage() {
@@ -41,9 +56,9 @@ export default async function FavoritesPage() {
     console.error("Failed to load favorites", error);
   }
 
-  const favoriteRecipes = ((rows ?? []) as FavoriteRow[])
-    .map((row) => row.recipes)
-    .filter((r): r is Recipe => r !== null && typeof r === "object" && "id" in r);
+  const favoriteRecipes = (rows ?? [])
+    .map((row) => embeddedRecipeFromFavoriteRow(row))
+    .filter((r): r is Recipe => r !== null);
 
   const favoriteIds = await getFavoriteRecipeIdSet(supabase, user.id);
 
