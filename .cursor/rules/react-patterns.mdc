@@ -1,0 +1,33 @@
+---
+description: React component and hook patterns
+globs: **/*.tsx
+alwaysApply: false
+---
+
+# React Patterns
+
+## Components
+- Use functional components only
+- Extract custom hooks for reusable state/logic
+- Colocate component-specific styles with the component
+
+## Client vs Server
+- Default to Server Components (no `"use client"`)
+- Add `"use client"` at the top of the file only when using: hooks, event handlers, browser APIs, or context
+
+## State & Props
+- Prefer composition over prop drilling
+- Use TypeScript interfaces for props with explicit children when needed
+
+```tsx
+// ✅ GOOD - typed props
+interface RecipeCardProps {
+  title: string;
+  description: string;
+  slug: string;
+}
+
+export function RecipeCard({ title, description, slug }: RecipeCardProps) {
+  return (/* ... */);
+}
+```

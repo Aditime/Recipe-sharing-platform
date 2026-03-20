@@ -1,0 +1,29 @@
+---
+description: TypeScript coding standards
+globs: **/*.ts
+alwaysApply: false
+---
+
+# TypeScript Standards
+
+## Error Handling
+
+```typescript
+// ❌ BAD
+try {
+  await fetchData();
+} catch (e) {}
+
+// ✅ GOOD
+try {
+  await fetchData();
+} catch (e) {
+  console.error('Failed to fetch', e);
+  throw new Error('Unable to retrieve data', { cause: e });
+}
+```
+
+## Types
+- Prefer `interface` for object shapes
+- Avoid `any`; use `unknown` when type is unclear, then narrow
+- Export types that are used across modules

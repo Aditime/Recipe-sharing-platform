@@ -1,0 +1,23 @@
+---
+description: Core project standards for recipe-sharing-platform
+alwaysApply: true
+---
+
+# Recipe Sharing Platform - AI Rules
+
+## Project Stack
+- **Framework**: Next.js 16
+- **UI**: React 19
+- **Styling**: Tailwind CSS v4
+- **Language**: TypeScript (strict mode)
+
+## Conventions
+- Use path alias `@/*` for imports (e.g., `@/components/RecipeCard`)
+- Prefer functional components and hooks
+- Keep components small and single-purpose
+- Use server components by default; add `"use client"` only when needed (interactivity, hooks, browser APIs)
+
+## Code Quality
+- Handle errors explicitly—avoid empty catch blocks
+- Use meaningful variable and component names
+- Prefer `const` over `let`; avoid `var`

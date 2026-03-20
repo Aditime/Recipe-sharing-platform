@@ -1,0 +1,24 @@
+---
+description: Next.js App Router conventions
+globs: app/**/*
+alwaysApply: false
+---
+
+# Next.js Conventions
+
+## App Router
+- Use `app/` directory structure
+- Use `page.tsx` for routes, `layout.tsx` for shared layouts
+- Use `loading.tsx` for loading states, `error.tsx` for error boundaries
+
+## Data & Routing
+- Prefer Server Components for data fetching (no useEffect for initial load)
+- Use `generateMetadata` for dynamic page metadata
+- Use route groups `(folder)` for organization without affecting URLs
+
+## File Naming
+- `page.tsx` — route page
+- `layout.tsx` — layout wrapper
+- `loading.tsx` — loading UI
+- `error.tsx` — error boundary
+- `not-found.tsx` — 404 page
